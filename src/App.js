@@ -4,7 +4,6 @@ import Card from "./components/Card";
 import Cart from "./components/Cart";
 import Header from "./components/Header";
 import { products } from "./database/products";
-// import Component from "../public/img/Masdasd";
 
 function App() {
   const [cartItems,setCartItems] = React.useState([])
@@ -50,7 +49,7 @@ function App() {
         <div className="search-parent">
           <h1>{searchValue ? `results for request: ${searchValue}` : "All products"}</h1>
           <div className="search-block">
-            <img src="/img/search.svg" alt="search-logo"/>
+            <img src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/search.svg" alt="search-logo"/>
             <input onChange={onInput} placeholder="Search product" className="inp"/>
           </div>
         </div>
@@ -63,7 +62,7 @@ function App() {
               productImg={obj.productImg} 
               onBuy={() => {onAddToCart(obj)}}
               srcFav={obj.isFavoirte ? "/img/liked.svg" : "/img/unliked.svg"}
-              srcBuy={obj.inCart ?  "/img/bought.svg" : "/img/btnBuy.svg"}
+              srcBuy={obj.inCart ?  "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/bought.svg" : "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btnBuy.svg"}
             /> 
           ))}
         </div>

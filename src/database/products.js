@@ -4,7 +4,7 @@ export const products = [
       title:"Nike Blazer Mid Suede",
       price: 114,
       currency: "$",
-      productImg: "/img/sneakers/2.jpg",
+      productImg: "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/sneakers/10.jpg",
       isFavoirte:false,
       inCart:false
     },
@@ -13,7 +13,7 @@ export const products = [
       title:"Nike Air Max 1",
       price: 133,
       currency: "$",
-      productImg:"/img/sneakers/1.jpg",
+      productImg:"https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/sneakers/1.jpg",
       isFavoirte:false,
       inCart:false
     },
@@ -22,7 +22,7 @@ export const products = [
       title:"Puma X Aka Boku Future Rider",
       price: 123,
       currency: "$",
-      productImg:"/img/sneakers/3.jpg",
+      productImg:"https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/sneakers/3.jpg",
       isFavoirte:false,
       inCart:false
     },
@@ -31,7 +31,7 @@ export const products = [
       title:"Nike Blazer Mid Suede",
       price: 153,
       currency: "$",
-      productImg:"/img/sneakers/4.jpg",
+      productImg:"https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/sneakers/4.jpg",
       isFavoirte:false,
       inCart:false
     },
@@ -40,7 +40,7 @@ export const products = [
       title:"Under Armour Curry 8",
       price: 165,
       currency: "$",
-      productImg:"/img/sneakers/5.jpg",
+      productImg:"https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/sneakers/5.jpg",
       isFavoirte:false,
       inCart:false
     },
@@ -49,7 +49,7 @@ export const products = [
       title:"Nike Kyrie 7",
       price: 195,
       currency: "$",
-      productImg:"/img/sneakers/6.jpg",
+      productImg:"https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/sneakers/6.jpg",
       isFavoirte:false,
       inCart:false
     },
@@ -58,7 +58,7 @@ export const products = [
       title:"Jordan Air Jordan 11",
       price: 133,
       currency: "$",
-      productImg:"/img/sneakers/7.jpg",
+      productImg:"https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/sneakers/11.jpg",
       isFavoirte:false,
       inCart:false
     },
@@ -67,7 +67,7 @@ export const products = [
       title:"Nike LeBron XVIII",
       price: 154,
       currency: "$",
-      productImg:"/img/sneakers/8.jpg",
+      productImg:"https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/sneakers/9.jpg",
       isFavoirte:false,
       inCart:false
     },
@@ -75,7 +75,7 @@ export const products = [
       title:"Nike Lebron XVIII Low",
       price: 178,
       currency: "$",
-      productImg:"/img/sneakers/9.jpg",
+      productImg:"https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/sneakers/7.jpg",
       isFavoirte:false,
       inCart:false
     },
@@ -84,7 +84,7 @@ export const products = [
       title:"Nike Blazer Mid Suede",
       price: 115,
       currency: "$",
-      productImg:"/img/sneakers/10.jpg",
+      productImg:"https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/sneakers/8.jpg",
       isFavoirte:false,
       inCart:false
     },
@@ -93,7 +93,7 @@ export const products = [
       title:"Nike Kyrie Flytrap IV",
       price: 187,
       currency: "$",
-      productImg:"/img/sneakers/11.jpg",
+      productImg:"https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/sneakers/11.jpg",
       isFavoirte:false,
       inCart:false
     },
@@ -102,7 +102,7 @@ export const products = [
       title:"Puma X Aka Boku Future Rider",
       price: 145,
       currency: "$",
-      productImg:"/img/sneakers/12.jpg",
+      productImg:"https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/sneakers/12.jpg",
       isFavoirte:false,
       inCart:false
     }

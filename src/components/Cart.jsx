@@ -8,7 +8,7 @@ function Cart({onClose, items=[], onRemove, sum}){
             <div className="drawer">
                 <div className="header">
                     <h2>Cart</h2>
-                    <img onClick={onClose} src="/img/btn-remove.svg" alt="remove"/>
+                    <img onClick={onClose} src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btn-remove.svg" alt="remove"/>
                 </div>
             <div className="item">
             {items.map((obj) => (           
@@ -18,7 +18,7 @@ function Cart({onClose, items=[], onRemove, sum}){
                     <p>{obj.title}</p>
                     <b>{obj.price + obj.currency}</b>
                 </div>
-                    <img className="removeBtn" onClick={()=>{onRemove(items, obj)}} src="/img/btn-remove.svg" alt="remove"/>
+                    <img className="removeBtn" onClick={()=>{onRemove(items, obj)}} src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btn-remove.svg" alt="remove"/>
                 </div>
             ))} 
             </div>
@@ -34,7 +34,7 @@ function Cart({onClose, items=[], onRemove, sum}){
                             <b>{sum/10 + '$'}</b>  
                     </li>
                     <button className="orderBtn" onClick={sum ? ()=>alert('Thank you, Your order in progress'): ()=>alert('you have no items in cart')}>
-                        <img src="/img/orderBtn.svg" alt="orderButton"/>
+                        <img src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/orderBtn.svg" alt="orderButton"/>
                     </button>
                 </ul>
             </div>
