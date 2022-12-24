@@ -1,6 +1,6 @@
 import React from "react";
 
-const Card = ({productImg, title,price, id, onBuy, onFavorite, srcFav, srcBuy}) =>{
+const Card = ({productImg, title,price, id, onBuy, srcBuy}) =>{
 
   const onClickBuy = () => {
     onBuy({productImg, title, price, id})

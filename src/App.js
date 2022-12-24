@@ -61,7 +61,6 @@ function App() {
               price={obj.price} 
               productImg={obj.productImg} 
               onBuy={() => {onAddToCart(obj)}}
-              srcFav={obj.isFavoirte ? "/img/liked.svg" : "/img/unliked.svg"}
               srcBuy={obj.inCart ?  "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/bought.svg" : "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btnBuy.svg"}
             /> 
           ))}
