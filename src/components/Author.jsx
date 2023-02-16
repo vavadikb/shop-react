@@ -1,16 +1,11 @@
 import React from "react";
 
-const Author = () =>{
+const Author = () => {
+  return (
+    <div className="author">
+      <div className="backdround">Vadim Babaiev</div>
+    </div>
+  );
+};
 
-    return(
-        <div className="author">
-            <div className="backdround">
-                Vadim Babaiev
-            </div>
-        </div>
-    )
-
-}
-
-
-export default Author
+export default Author;
