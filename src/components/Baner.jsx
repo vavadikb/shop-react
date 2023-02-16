@@ -1,11 +1,11 @@
 import React from "react";
 
-const Baner = (props) => {
+const Baner = ({onClickCart}) => {
   return (
     <div className="baner">
       <img
         src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/baner.svg"
-        onClick={props.onClickCart}
+        onClick={onClickCart}
         alt="baner"
       />
     </div>
