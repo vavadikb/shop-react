@@ -1,8 +1,8 @@
 import React from "react";
-import Baner from "./components/Baner";
-import Card from "./components/Card";
-import Cart from "./components/Cart";
-import Header from "./components/Header";
+import Baner from "./components/Baner/Baner";
+import Card from "./components/Card/Card";
+import Cart from "./components/Cart/Cart";
+import Header from "./components/Header/Header";
 import { products } from "./database/products";
 
 function App() {

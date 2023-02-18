@@ -18,40 +18,6 @@ body {
   margin: 50px auto;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 40px;
-  border-bottom: 1px solid #eaeaea;
-}
-header .leftHeader {
-  display: flex;
-  align-items: center;
-}
-header .rightHeader img {
-  cursor: pointer;
-}
-header .cartBtn {
-  border: none;
-  cursor: pointer;
-  background-color: #e7f6ff;
-}
-header img {
-  margin-right: 15px;
-}
-header li {
-  display: inline;
-  list-style-type: none;
-  margin-right: 30px;
-}
-header li span {
-  margin-left: 15px;
-}
-header h3,
-header p {
-  margin: 0;
-}
-
 .content {
   padding: 40px;
 }
@@ -59,35 +25,8 @@ header p {
   margin: 0px;
 }
 
-.card {
-  border: 1 solid #f8f8f8;
-  padding: 20px;
-  width: 210px;
-  border-radius: 40px;
-  transition: box-shaodow 0.2s ease-in-out, transform 0.2s ease-in-out;
-}
-.card .favorite {
-  position: absolute;
-  cursor: pointer;
-}
-.card span {
-  font-size: 13px;
-  text-transform: uppercase;
-}
-.card .butn {
-  background: #ffffff;
-  border: 1px solid #f2f2f2;
-  box-sizing: border-box;
-  border-radius: 8px;
-  height: 24px;
-  width: 24px;
-  cursor: pointer;
-}
 
-.card:hover {
-  box-shadow: 0px 14px 35px rgba(0, 0, 0, 0.08);
-  transform: translateY(-5px);
-}
+
 
 .infoBtn {
   display: flex;
@@ -124,122 +63,10 @@ header p {
   font-size: 16px;
 }
 
-.overlay {
-  position: fixed;
-  overflow-y: hidden;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  background-color: rgba(0, 0, 0, 0.5);
-}
 
-.drawer {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  width: 385px;
-  height: 100%;
-  right: 0;
-  background: #ffffff;
-  box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.01);
-}
-.drawer .header {
-  display: flex;
-  justify-content: space-between;
-  margin-right: 20px;
-}
-.drawer .header img {
-  cursor: pointer;
-}
-.drawer h2 {
-  margin: 0;
-  padding: 5%;
-  font-size: 24px;
-}
-.drawer .item {
-  flex: 1;
-  overflow: auto;
-}
-.drawer .cartItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid #f3f3f3;
-  border-radius: 20px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-.drawer .cartItem p {
-  margin-bottom: 5px;
-  font-size: 16px;
-}
-.drawer .cartItem img {
-  margin: 0;
-  padding: 5%;
-}
-.drawer .cartItem b {
-  margin: 0;
-  padding: 5%;
-  font-size: 14px;
-}
-.drawer .cartItem .discription-product {
-  margin: none;
-}
-.drawer .cartItem .removeBtn {
-  opacity: 0.5;
-  transition: opacity 0.2s ease-in-out;
-  cursor: pointer;
-}
-.drawer .cartItem .removeBtn:hover {
-  opacity: 1;
-}
-.drawer .cartTotal {
-  margin: 0;
-  padding-right: 10px;
-  padding-left: 10px;
-}
-.drawer .cartTotal div {
-  position: relative;
-  flex: 1;
-  height: 1px;
-  border: 1px dashed #dfdfdf;
-  top: -7px;
-  margin: 0 10px;
-}
-.drawer .cartTotal li {
-  display: flex;
-  flex-direction: row;
-  list-style-type: none;
-  align-items: flex-end;
-  margin-bottom: 20px;
-}
-.drawer .cartTotal button {
-  padding: 0;
-  border: none;
-  background: none;
-  display: flex;
-  margin: auto;
-  margin: 30px;
-  transition: 0.15s ease-in-out;
-  cursor: pointer;
-}
-.drawer .cartTotal button:hover {
-  border-radius: 25px;
-  transform: translateX(2px);
-}
 
-.baner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.baner img {
-  cursor: pointer;
-}
-
+/* 
 .author {
   width: 100%;
   height: 100%;
-}
+} */

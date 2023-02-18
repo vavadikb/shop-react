@@ -1,0 +1,35 @@
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px;
+    border-bottom: 1px solid #eaeaea;
+  }
+  header .leftHeader {
+    display: flex;
+    align-items: center;
+  }
+  header .rightHeader img {
+    cursor: pointer;
+  }
+  header .cartBtn {
+    border: none;
+    cursor: pointer;
+    background-color: #e7f6ff;
+  }
+  header img {
+    margin-right: 15px;
+  }
+  header li {
+    display: inline;
+    list-style-type: none;
+    margin-right: 30px;
+  }
+  header li span {
+    margin-left: 15px;
+  }
+  header h3,
+  header p {
+    margin: 0;
+  }
+  

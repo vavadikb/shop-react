@@ -1,4 +1,5 @@
 import React from "react";
+import "./index.css"
 
 const Card = ({ productImg, title, price, id, onBuy, srcBuy }) => {
   const onClickBuy = () => {
