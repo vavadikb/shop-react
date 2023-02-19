@@ -1,9 +1,4 @@
 import React from "react";
-// import Baner from "./components/Baner/Baner";
-// import Card from "./components/Card/Card";
-// import Cart from "../Cart/Cart";
-// import Header from ".Header/Header";
-// import { products } from "./database/products";
 import Header from "../Header/Header";
 import Baner from "../Baner/Baner";
 import Cart from "../Cart/Cart";
