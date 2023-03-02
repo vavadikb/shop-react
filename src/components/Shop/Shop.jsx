@@ -6,35 +6,49 @@ import Card from "../Card/Card";
 import { products } from "../../database/products";
 
 function Shop() {
-  const [cartItems, setCartItems] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState("");
   const [cartOpened, setCartOpened] = React.useState(false);
+  const [productsItems, setProductsItems] = React.useState(products);
+  const [cartItems,setCartItems] = React.useState()
+
+
 
   const onAddToCart = (obj) => {
-    if (!obj.inCart) {
-      setCartItems((prev) => [...prev, obj]);
-      obj.inCart = true;
-    } else {
-      onRemoveCartItem(cartItems, obj);
-      obj.inCart = false;
-    }
+    let newArr = []
+
+    productsItems.map((item,index) => 
+    item.id===obj.id 
+    ? newArr[index] = {...item, inCart:!obj.inCart} 
+    : newArr[index] = {...item})
+      console.log(newArr)
+    setProductsItems(newArr)
+    addToItems(newArr)
+
   };
+
+  const addToItems = (products) => {
+    let newArr = []
+    console.log(products.map(item=>console.log(item.inCart)))
+    products.map(item => !item.inCart ? newArr : newArr= [...newArr, item] )
+    setCartItems(newArr)
+    console.log(cartItems)
+  }
 
   const onInput = (event) => {
     setSearchValue(event.target.value);
   };
 
-  const onRemoveCartItem = (items, obj) => {
-    let newArr = [...items];
-    let indexOfItem = items.indexOf(obj);
-    newArr.splice(indexOfItem, 1);
-    obj.inCart = false;
-    setCartItems(newArr);
-  };
+  // const onRemoveCartItem = (items, obj) => {
+  //   let newArr = [...items];
+  //   let indexOfItem = items.indexOf(obj);
+  //   newArr.splice(indexOfItem, 1);
+  //   obj.inCart = false;
+  //   setCartItems(newArr);
+  // };
 
   const summ = () => {
     let sum = 0;
-    cartItems.map((obj) => (sum += obj.price));
+    productsItems.map((obj) => obj.inCart ? sum += obj.price : sum );
     return sum;
   };
 
@@ -54,7 +68,7 @@ function Shop() {
       {cartOpened && (
         <Cart
           items={cartItems}
-          onRemove={onRemoveCartItem}
+          onRemove={onAddToCart}
           onClose={() => {
             setCartOpened(false);
           }}
@@ -81,7 +95,7 @@ function Shop() {
           </div>
         </div>
         <div className="sneakers">
-          {products
+          {productsItems
             .filter((item) =>
               item.title.toLowerCase().includes(searchValue.toLowerCase())
             )

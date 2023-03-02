@@ -2,6 +2,18 @@ import React from "react";
 import "./index.css"
 
 function Cart({ onClose, items = [], onRemove, sum }) {
+
+  const [inCartItems,setInCartItems] = React.useState()
+
+  const itemsAdded = () => {
+    let newArr = []
+    items.map((item)=>item.inCart ? newArr=[...newArr, item] : item)
+    console.log(newArr, items )
+    setInCartItems(newArr)
+    console.log(inCartItems)
+
+  }
+
   return (
     <div className="overlay">
       <div className="drawer">
@@ -29,7 +41,8 @@ function Cart({ onClose, items = [], onRemove, sum }) {
               <img
                 className="removeBtn"
                 onClick={() => {
-                  onRemove(items, obj);
+                  itemsAdded()
+                  onRemove(obj);
                 }}
                 src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btn-remove.svg"
                 alt="remove"

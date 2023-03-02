@@ -5,7 +5,6 @@ const Card = ({ productImg, title, price, id, onBuy, srcBuy }) => {
   const onClickBuy = () => {
     onBuy({ productImg, title, price, id });
   };
-
   return (
     <div className="card">
       <div className="favorite"></div>
