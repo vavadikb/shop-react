@@ -5,112 +5,132 @@ import Cart from "../Cart/Cart";
 import Card from "../Card/Card";
 import { products } from "../../database/products";
 
-function Shop() {
-  const [searchValue, setSearchValue] = React.useState("");
-  const [cartOpened, setCartOpened] = React.useState(false);
-  const [productsItems, setProductsItems] = React.useState(products);
-  const [cartItems,setCartItems] = React.useState()
-
-
-
-  const onAddToCart = (obj) => {
-    let newArr = []
-
-    productsItems.map((item,index) => 
-    item.id===obj.id 
-    ? newArr[index] = {...item, inCart:!obj.inCart} 
-    : newArr[index] = {...item})
-      console.log(newArr)
-    setProductsItems(newArr)
-    addToItems(newArr)
-
-  };
-
-  const addToItems = (products) => {
-    let newArr = []
-    console.log(products.map(item=>console.log(item.inCart)))
-    products.map(item => !item.inCart ? newArr : newArr= [...newArr, item] )
-    setCartItems(newArr)
-    console.log(cartItems)
+class Shop extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchValue: "",
+      cartOpened: false,
+      productsItems: products,
+      cartItems: [],
+    };
   }
 
-  const onInput = (event) => {
-    setSearchValue(event.target.value);
+  componentDidMount() {
+    this.addToItems(this.state.productsItems);
+  }
+
+  onAddToCart = (obj) => {
+    let newArr = [];
+
+    this.state.productsItems.map((item, index) =>
+      item.id === obj.id
+        ? (newArr[index] = { ...item, inCart: !obj.inCart })
+        : (newArr[index] = { ...item })
+    );
+
+    this.setState({ productsItems: newArr });
+    this.addToItems(newArr);
   };
 
-  const summ = () => {
+  addToItems = (products) => {
+    let newArr = [];
+
+    products.forEach((item) => {
+      if (item.inCart) {
+        newArr.push(item);
+      }
+    });
+
+    this.setState({ cartItems: newArr });
+  };
+
+  onInput = (event) => {
+    this.setState({ searchValue: event.target.value });
+  };
+
+  summ = () => {
     let sum = 0;
-    productsItems.map((obj) => obj.inCart ? sum += obj.price : sum );
+    this.state.productsItems.forEach((obj) => {
+      if (obj.inCart) {
+        sum += obj.price;
+      }
+    });
+
     return sum;
   };
 
-  return (
-    <div className="wrapper">
-      <Header
-        onClickCart={() => {
-          setCartOpened(true);
-        }}
-        sum={summ()}
-      />
-      <Baner
-        onClickCart={() => {
-          setCartOpened(true);
-        }}
-      />
-      {cartOpened && (
-        <Cart
-          items={cartItems}
-          onRemove={onAddToCart}
-          onClose={() => {
-            setCartOpened(false);
+  render() {
+    return (
+      <div className="wrapper">
+        <Header
+          onClickCart={() => {
+            this.setState({ cartOpened: true });
           }}
-          sum={summ()}
+          sum={this.summ()}
         />
-      )}
-      <div className="content">
-        <div className="search-parent">
-          <h1>
-            {searchValue
-              ? `results for request: ${searchValue}`
-              : "All products"}
-          </h1>
-          <div className="search-block">
-            <img
-              src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/search.svg"
-              alt="search-logo"
-            />
-            <input
-              onChange={onInput}
-              placeholder="Search product"
-              className="inp"
-            />
+        <Baner
+          onClickCart={() => {
+            this.setState({ cartOpened: true });
+          }}
+        />
+        {this.state.cartOpened && (
+          <Cart
+            items={this.state.cartItems}
+            onRemove={this.onAddToCart}
+            onClose={() => {
+              this.setState({ cartOpened: false });
+            }}
+            sum={this.summ()}
+          />
+        )}
+        <div className="content">
+          <div className="search-parent">
+            <h1>
+              {this.state.searchValue
+                ? `results for request: ${this.state.searchValue}`
+                : "All products"}
+            </h1>
+            <div className="search-block">
+              <img
+                src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/search.svg"
+                alt="search-logo"
+              />
+              <input
+                onChange={this.onInput}
+                placeholder="Search product"
+                className="inp"
+              />
+            </div>
+          </div>
+          <div className="sneakers">
+            {this.state.productsItems
+              .filter((item) =>
+                item.title
+                  .toLowerCase()
+                  .includes(this.state.searchValue.toLowerCase())
+              )
+              .map((obj) => (
+                <Card
+                  id={obj.id}
+                  title={obj.title}
+                  price={obj.price}
+                  productImg={obj.productImg}
+                  onBuy={() => {
+                    this.onAddToCart(obj);
+                  }}
+                  srcBuy={
+                    obj.inCart
+                      ? "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/bought.svg"
+                      : "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btnBuy.svg"
+                  }
+                />
+              ))}
           </div>
         </div>
-        <div className="sneakers">
-          {productsItems
-            .filter((item) =>
-              item.title.toLowerCase().includes(searchValue.toLowerCase())
-            )
-            .map((obj) => (
-              <Card
-                id={obj.id}
-                title={obj.title}
-                price={obj.price}
-                productImg={obj.productImg}
-                onBuy={() => {
-                  onAddToCart(obj);
-                }}
-                srcBuy={
-                  obj.inCart
-                    ? "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/bought.svg"
-                    : "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btnBuy.svg"
-                }
-              />
-            ))}
-        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default Shop;
