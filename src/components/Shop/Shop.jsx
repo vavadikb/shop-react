@@ -38,14 +38,6 @@ function Shop() {
     setSearchValue(event.target.value);
   };
 
-  // const onRemoveCartItem = (items, obj) => {
-  //   let newArr = [...items];
-  //   let indexOfItem = items.indexOf(obj);
-  //   newArr.splice(indexOfItem, 1);
-  //   obj.inCart = false;
-  //   setCartItems(newArr);
-  // };
-
   const summ = () => {
     let sum = 0;
     productsItems.map((obj) => obj.inCart ? sum += obj.price : sum );
