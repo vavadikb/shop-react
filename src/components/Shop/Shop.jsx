@@ -21,12 +21,9 @@ class Shop extends React.Component {
   }
 
   onAddToCart = (obj) => {
-    let newArr = [];
-
-    this.state.productsItems.map((item, index) =>
-      item.id === obj.id
-        ? (newArr[index] = { ...item, inCart: !obj.inCart })
-        : (newArr[index] = { ...item })
+    const { productsItems } = this.state;
+    const newArr = productsItems.map((item) =>
+      item.id === obj.id ? { ...item, inCart: !obj.inCart } : item
     );
 
     this.setState({ productsItems: newArr });
@@ -34,14 +31,7 @@ class Shop extends React.Component {
   };
 
   addToItems = (products) => {
-    let newArr = [];
-
-    products.forEach((item) => {
-      if (item.inCart) {
-        newArr.push(item);
-      }
-    });
-
+    const newArr = products.filter((item) => item.inCart);
     this.setState({ cartItems: newArr });
   };
 
@@ -50,13 +40,12 @@ class Shop extends React.Component {
   };
 
   summ = () => {
-    let sum = 0;
-    this.state.productsItems.forEach((obj) => {
+    const sum = this.state.productsItems.reduce((accumulator, obj) => {
       if (obj.inCart) {
-        sum += obj.price;
+        return accumulator + obj.price;
       }
-    });
-
+      return accumulator;
+    }, 0);
     return sum;
   };
 
