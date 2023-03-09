@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import "./index.css"
+import "./index.css";
+import InfoButton from "./InfoButton";
 
 class Card extends Component {
   constructor(props) {
@@ -19,23 +20,11 @@ class Card extends Component {
         <div className="favorite"></div>
         <img src={productImg} alt="sneakers_photo" width={133} height={112} />
         <p>{title}</p>
-        <div className="infoBtn">
-          <div className="info">
-            <span>
-              Price:
-              <br />
-              <b>{price}</b>
-            </span>
-          </div>
-          <img
-            width={11}
-            height={11}
-            className="butn"
-            onClick={this.onClickBuy}
-            src={srcBuy}
-            alt="btn"
-          />
-        </div>
+        <InfoButton
+          price={price}
+          onClickBuy={this.onClickBuy}
+          srcBuy={srcBuy}
+        />
       </div>
     );
   }
