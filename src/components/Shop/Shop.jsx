@@ -18,7 +18,18 @@ class Shop extends React.Component {
 
   componentDidMount() {
     this.addToItems(this.state.productsItems);
+    document.addEventListener("keydown", this.handleKeyPress);
   }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyPress);
+  }
+
+  handleKeyPress = (event) => {
+    if (event.key === "Control") {
+      this.setState({ cartOpened: true });
+    }
+  };
 
   onAddToCart = (obj) => {
     const { productsItems } = this.state;
