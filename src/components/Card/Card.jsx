@@ -8,6 +8,16 @@ class Card extends Component {
     this.state = {};
   }
 
+  handleImageLoaded = () => {
+    console.log("Image loaded successfully");
+    this.setState({ imageLoaded: true });
+  };
+
+  handleImageError = () => {
+    console.log("Error loading image");
+    this.setState({ imageError: true });
+  };
+
   onClickBuy = () => {
     const { productImg, title, price, id, onBuy } = this.props;
     onBuy({ productImg, title, price, id });
@@ -18,7 +28,15 @@ class Card extends Component {
     return (
       <div className="card">
         <div className="favorite"></div>
-        <img src={productImg} alt="sneakers_photo" width={133} height={112} />
+        <img
+          src={productImg}
+          alt="sneakers_photo"
+          width={133}
+          height={112}
+          onLoad={this.handleImageLoaded}
+          onError={this.handleImageError}
+        />
+
         <p>{title}</p>
         <InfoButton
           price={price}

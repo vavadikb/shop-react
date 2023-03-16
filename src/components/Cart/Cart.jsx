@@ -39,6 +39,16 @@ class Cart extends React.Component {
     e.preventDefault();
   };
 
+  handleImageLoaded = () => {
+    console.log("Image loaded successfully");
+    this.setState({ imageLoaded: true });
+  };
+
+  handleImageError = () => {
+    console.log("Error loading image");
+    this.setState({ imageError: true });
+  };
+
   onDrop = (e, index) => {
     const fromIndex = e.dataTransfer.getData("index");
     const { inCartItems } = this.state;
@@ -63,6 +73,8 @@ class Cart extends React.Component {
               onClick={onClose}
               src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btn-remove.svg"
               alt="remove"
+              onLoad={this.handleImageLoaded}
+              onError={this.handleImageError}
             />
           </div>
           <CartItemsList

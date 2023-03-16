@@ -31,6 +31,16 @@ class Shop extends React.Component {
     }
   };
 
+  handleImageLoaded = () => {
+    console.log("Image loaded successfully");
+    this.setState({ imageLoaded: true });
+  };
+
+  handleImageError = () => {
+    console.log("Error loading image");
+    this.setState({ imageError: true });
+  };
+
   onAddToCart = (obj) => {
     const { productsItems } = this.state;
     const newArr = productsItems.map((item) =>
@@ -95,6 +105,8 @@ class Shop extends React.Component {
               <img
                 src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/search.svg"
                 alt="search-logo"
+                onLoad={this.handleImageLoaded}
+                onError={this.handleImageError}
               />
               <input
                 onChange={this.onInput}
