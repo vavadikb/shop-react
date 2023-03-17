@@ -1,67 +1,72 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../Header/Header";
 import Baner from "../Baner/Baner";
 import Cart from "../Cart/Cart";
 import Card from "../Card/Card";
-import { products } from "../../database/products";
 
-class Shop extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchValue: "",
-      cartOpened: false,
-      productsItems: products,
-      cartItems: [],
+function Shop() {
+  const [searchValue, setSearchValue] = useState("");
+  const [cartOpened, setCartOpened] = useState(false);
+  const [productsItems, setProductsItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setImageLoaded] = useState(false);
+  const [error, setImageError] = useState(null);
+  const [isFetched, setIsFetched] = useState(false);
+
+  useEffect(() => {
+    if (!isFetched) fetched();
+    addToItems(productsItems);
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
     };
+  }, []);
+
+  function fetched() {
+    fetch("https://64139d9ea68505ea73376302.mockapi.io/react-shop/shoes ")
+      .then((response) => response.json())
+      .then((json) => {
+        let newArr = json.map((obj) => (obj = { ...obj, inCart: false }));
+        setProductsItems(newArr);
+      });
+    setIsFetched(true);
   }
 
-  componentDidMount() {
-    this.addToItems(this.state.productsItems);
-    document.addEventListener("keydown", this.handleKeyPress);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleKeyPress);
-  }
-
-  handleKeyPress = (event) => {
+  const handleKeyPress = (event) => {
     if (event.key === "Control") {
-      this.setState({ cartOpened: true });
+      setCartOpened(true);
     }
   };
 
-  handleImageLoaded = () => {
+  const handleImageLoaded = () => {
     console.log("Image loaded successfully");
-    this.setState({ imageLoaded: true });
+    setImageLoaded(true);
   };
 
-  handleImageError = () => {
+  const handleImageError = () => {
     console.log("Error loading image");
-    this.setState({ imageError: true });
+    setImageError(true);
   };
 
-  onAddToCart = (obj) => {
-    const { productsItems } = this.state;
+  const onAddToCart = (obj) => {
     const newArr = productsItems.map((item) =>
       item.id === obj.id ? { ...item, inCart: !obj.inCart } : item
     );
-
-    this.setState({ productsItems: newArr });
-    this.addToItems(newArr);
+    setProductsItems(newArr);
+    addToItems(newArr);
   };
 
-  addToItems = (products) => {
+  const addToItems = (products) => {
     const newArr = products.filter((item) => item.inCart);
-    this.setState({ cartItems: newArr });
+    setCartItems(newArr);
   };
 
-  onInput = (event) => {
-    this.setState({ searchValue: event.target.value });
+  const onInput = (event) => {
+    setSearchValue(event.target.value);
   };
 
-  summ = () => {
-    const sum = this.state.productsItems.reduce((accumulator, obj) => {
+  const summ = () => {
+    const sum = productsItems.reduce((accumulator, obj) => {
       if (obj.inCart) {
         return accumulator + obj.price;
       }
@@ -70,79 +75,64 @@ class Shop extends React.Component {
     return sum;
   };
 
-  render() {
-    return (
-      <div className="wrapper">
-        <Header
-          onClickCart={() => {
-            this.setState({ cartOpened: true });
-          }}
-          sum={this.summ()}
+  return (
+    <div className="wrapper">
+      <Header onClickCart={() => setCartOpened(true)} sum={summ()} />
+      <Baner onClickCart={() => setCartOpened(true)} />
+      {cartOpened && (
+        <Cart
+          items={cartItems}
+          onRemove={onAddToCart}
+          onClose={() => setCartOpened(false)}
+          sum={summ()}
         />
-        <Baner
-          onClickCart={() => {
-            this.setState({ cartOpened: true });
-          }}
-        />
-        {this.state.cartOpened && (
-          <Cart
-            items={this.state.cartItems}
-            onRemove={this.onAddToCart}
-            onClose={() => {
-              this.setState({ cartOpened: false });
-            }}
-            sum={this.summ()}
-          />
-        )}
-        <div className="content">
-          <div className="search-parent">
-            <h1>
-              {this.state.searchValue
-                ? `results for request: ${this.state.searchValue}`
-                : "All products"}
-            </h1>
-            <div className="search-block">
-              <img
-                src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/search.svg"
-                alt="search-logo"
-                onLoad={this.handleImageLoaded}
-                onError={this.handleImageError}
-              />
-              <input
-                onChange={this.onInput}
-                placeholder="Search product"
-                className="inp"
-              />
-            </div>
-          </div>
-          <div className="sneakers">
-            {this.state.productsItems
-              .filter((item) =>
-                item.title
-                  .toLowerCase()
-                  .includes(this.state.searchValue.toLowerCase())
-              )
-              .map((obj) => (
-                <Card
-                  id={obj.id}
-                  title={obj.title}
-                  price={obj.price}
-                  productImg={obj.productImg}
-                  onBuy={() => {
-                    this.onAddToCart(obj);
-                  }}
-                  srcBuy={
-                    obj.inCart
-                      ? "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/bought.svg"
-                      : "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btnBuy.svg"
-                  }
-                />
-              ))}
+      )}
+      <div className="content">
+        <div className="search-parent">
+          <h1>
+            {searchValue
+              ? `results for request: ${searchValue}`
+              : "All products"}
+          </h1>
+          <div className="search-block">
+            <img
+              src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/search.svg"
+              alt="search-logo"
+              onLoad={handleImageLoaded}
+              onError={handleImageError}
+            />
+            <input
+              onChange={onInput}
+              placeholder="Search product"
+              className="inp"
+            />
           </div>
         </div>
+        <div className="sneakers">
+          {productsItems
+            .filter((item) =>
+              item.title.toLowerCase().includes(searchValue.toLowerCase())
+            )
+            .map((obj) => (
+              <Card
+                id={obj.id}
+                title={obj.title}
+                price={obj.price}
+                productImg={obj.productImg}
+                onBuy={() => {
+                  onAddToCart(obj);
+                }}
+                srcBuy={
+                  obj.inCart
+                    ? "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/bought.svg"
+                    : "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btnBuy.svg"
+                }
+              />
+            ))}
+        </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Shop;

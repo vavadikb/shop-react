@@ -1,51 +1,43 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import "./index.css";
 import InfoButton from "./InfoButton";
 
-class Card extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+const Card = (props) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
-  handleImageLoaded = () => {
+  const handleImageLoaded = () => {
     console.log("Image loaded successfully");
-    this.setState({ imageLoaded: true });
+    setImageLoaded(true);
   };
 
-  handleImageError = () => {
+  const handleImageError = () => {
     console.log("Error loading image");
-    this.setState({ imageError: true });
+    setImageError(true);
   };
 
-  onClickBuy = () => {
-    const { productImg, title, price, id, onBuy } = this.props;
+  const onClickBuy = () => {
+    const { productImg, title, price, id, onBuy } = props;
     onBuy({ productImg, title, price, id });
   };
 
-  render() {
-    const { productImg, title, price, srcBuy } = this.props;
-    return (
-      <div className="card">
-        <div className="favorite"></div>
-        <img
-          src={productImg}
-          alt="sneakers_photo"
-          width={133}
-          height={112}
-          onLoad={this.handleImageLoaded}
-          onError={this.handleImageError}
-        />
+  const { productImg, title, price, srcBuy } = props;
 
-        <p>{title}</p>
-        <InfoButton
-          price={price}
-          onClickBuy={this.onClickBuy}
-          srcBuy={srcBuy}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="card">
+      <div className="favorite"></div>
+      <img
+        src={productImg}
+        alt="sneakers_photo"
+        width={133}
+        height={112}
+        onLoad={handleImageLoaded}
+        onError={handleImageError}
+      />
+      <p>{title}</p>
+      <InfoButton price={price} onClickBuy={onClickBuy} srcBuy={srcBuy} />
+    </div>
+  );
+};
 
 export default Card;
