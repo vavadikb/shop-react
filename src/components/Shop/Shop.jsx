@@ -43,11 +43,12 @@ function Shop() {
   };
 
   const onAddToCart = (obj) => {
-    const newArr = productsItems.map((item) =>
-      item.id === obj.id ? { ...item, inCart: !obj.inCart } : item
+    setProductsItems(
+      productsItems.map((item) =>
+        item.id === obj.id ? { ...item, inCart: !obj.inCart } : item
+      )
     );
-    setProductsItems(newArr);
-    addToItems(newArr);
+    addToItems(productsItems);
   };
 
   const addToItems = (products) => {

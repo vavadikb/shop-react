@@ -17,8 +17,8 @@ const Card = (props) => {
   };
 
   const onClickBuy = () => {
-    const { productImg, title, price, id, onBuy } = props;
-    onBuy({ productImg, title, price, id });
+    const { onBuy } = props;
+    onBuy();
   };
 
   const { productImg, title, price, srcBuy } = props;
