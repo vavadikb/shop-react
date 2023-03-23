@@ -1,94 +1,56 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import CartItemsList from "./CartItemsList";
 import "./index.css";
 
-class Cart extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      inCartItems: [],
-    };
-  }
+const Cart = ({ items, onClose, onRemove, sum }) => {
+  const [inCartItems, setInCartItems] = useState([]);
 
-  componentDidMount() {
-    this.itemsAdded();
-  }
+  useEffect(() => {
+    itemsAdded();
+  }, [items]);
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.items !== this.props.items) {
-      this.itemsAdded();
-    }
-  }
+  const itemsAdded = () => {
+    const newArr = items.filter((item) => item.inCart);
+    setInCartItems(newArr);
+  };
 
-  componentWillUnmount() {
-    // cleanup function
-  }
-
-  itemsAdded() {
-    const newArr = this.props.items.filter((item) => item.inCart);
-    this.setState({
-      inCartItems: newArr,
-    });
-  }
-
-  onDragStart = (e, index) => {
+  const onDragStart = (e, index) => {
     e.dataTransfer.setData("index", index);
   };
 
-  onDragOver = (e) => {
+  const onDragOver = (e) => {
     e.preventDefault();
   };
 
-  handleImageLoaded = () => {
+  const handleImageLoaded = () => {
     console.log("Image loaded successfully");
-    this.setState({ imageLoaded: true });
+    setInCartItems((prevState) => ({ ...prevState, imageLoaded: true }));
   };
 
-  handleImageError = () => {
+  const handleImageError = () => {
     console.log("Error loading image");
-    this.setState({ imageError: true });
+    setInCartItems((prevState) => ({ ...prevState, imageError: true }));
   };
 
-  onDrop = (e, index) => {
+  const onDrop = (e, index) => {
     const fromIndex = e.dataTransfer.getData("index");
-    const { inCartItems } = this.state;
     const newItemList = [...inCartItems];
     const removedItem = newItemList.splice(fromIndex, 1)[0];
     newItemList.splice(index, 0, removedItem);
-    this.setState({
-      inCartItems: newItemList,
-    });
+    setInCartItems(newItemList);
   };
 
-  render() {
-    const { onClose, onRemove, sum } = this.props;
-    const { inCartItems } = this.state;
+  return (
+    <CartItemsList
+      onClose={onClose}
+      items={inCartItems}
+      onRemove={onRemove}
+      sum={sum}
+      onDragStart={onDragStart}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+    />
+  );
+};
 
-    return (
-      <div className="overlay">
-        <div className="drawer">
-          <div className="header">
-            <h2>Cart</h2>
-            <img
-              onClick={onClose}
-              src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btn-remove.svg"
-              alt="remove"
-              onLoad={this.handleImageLoaded}
-              onError={this.handleImageError}
-            />
-          </div>
-          <CartItemsList
-            onClose={onClose}
-            items={inCartItems}
-            onRemove={onRemove}
-            sum={sum}
-            onDragStart={this.onDragStart}
-            onDragOver={this.onDragOver}
-            onDrop={this.onDrop}
-          />
-        </div>
-      </div>
-    );
-  }
-}
 export default Cart;

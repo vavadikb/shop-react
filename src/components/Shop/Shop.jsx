@@ -11,26 +11,20 @@ function Shop() {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setImageLoaded] = useState(false);
   const [error, setImageError] = useState(null);
-  const [isFetched, setIsFetched] = useState(false);
 
   useEffect(() => {
-    if (!isFetched) fetched();
+    fetch("https://64139d9ea68505ea73376302.mockapi.io/react-shop/shoes ")
+      .then((response) => response.json())
+      .then((json) => {
+        let newArr = json.map((obj) => ({ ...obj, inCart: false }));
+        setProductsItems(newArr);
+      });
     addToItems(productsItems);
     document.addEventListener("keydown", handleKeyPress);
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
-
-  function fetched() {
-    fetch("https://64139d9ea68505ea73376302.mockapi.io/react-shop/shoes ")
-      .then((response) => response.json())
-      .then((json) => {
-        let newArr = json.map((obj) => (obj = { ...obj, inCart: false }));
-        setProductsItems(newArr);
-      });
-    setIsFetched(true);
-  }
 
   const handleKeyPress = (event) => {
     if (event.key === "Control") {
