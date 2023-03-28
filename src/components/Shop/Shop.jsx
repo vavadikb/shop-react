@@ -43,12 +43,13 @@ function Shop() {
   };
 
   const onAddToCart = (obj) => {
-    setProductsItems(
-      productsItems.map((item) =>
+    setProductsItems((prevItems) => {
+      const updatedItems = prevItems.map((item) =>
         item.id === obj.id ? { ...item, inCart: !obj.inCart } : item
-      )
-    );
-    addToItems(productsItems);
+      );
+      addToItems(updatedItems);
+      return updatedItems;
+    });
   };
 
   const addToItems = (products) => {
