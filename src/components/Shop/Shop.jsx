@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Header from "../Header/Header";
 import Baner from "../Baner/Baner";
 import Cart from "../Cart/Cart";
 import Card from "../Card/Card";
+import CartContext from "../Contexts/CartContext";
 
 function Shop() {
   const [searchValue, setSearchValue] = useState("");
   const [cartOpened, setCartOpened] = useState(false);
   const [productsItems, setProductsItems] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
+  const { cartItems, setCartItems } = useContext(CartContext);
   const [loading, setImageLoaded] = useState(false);
   const [error, setImageError] = useState(null);
 
@@ -16,10 +17,8 @@ function Shop() {
     fetch("https://64139d9ea68505ea73376302.mockapi.io/react-shop/shoes ")
       .then((response) => response.json())
       .then((json) => {
-        let newArr = json.map((obj) => ({ ...obj, inCart: false }));
-        setProductsItems(newArr);
+        setProductsItems(json.map((obj) => ({ ...obj, inCart: false })));
       });
-    addToItems(productsItems);
     document.addEventListener("keydown", handleKeyPress);
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
@@ -53,8 +52,10 @@ function Shop() {
   };
 
   const addToItems = (products) => {
-    const newArr = products.filter((item) => item.inCart);
-    setCartItems(newArr);
+    // const newArr = products.filter((item) => item.inCart);
+    setCartItems(products.filter((item) => item.inCart));
+    // addToContext(cartItems);
+    // console.log(cartItems);
   };
 
   const onInput = (event) => {
