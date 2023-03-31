@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../Header/Header";
 import Baner from "../Baner/Baner";
 import Cart from "../Cart/Cart";
@@ -9,7 +9,7 @@ function Shop() {
   const [searchValue, setSearchValue] = useState("");
   const [cartOpened, setCartOpened] = useState(false);
   const [productsItems, setProductsItems] = useState([]);
-  const { cartItems, setCartItems } = useContext(CartContext);
+  const [cartItems, setCartItems] = useState([]);
   const [loading, setImageLoaded] = useState(false);
   const [error, setImageError] = useState(null);
 
@@ -52,10 +52,7 @@ function Shop() {
   };
 
   const addToItems = (products) => {
-    // const newArr = products.filter((item) => item.inCart);
     setCartItems(products.filter((item) => item.inCart));
-    // addToContext(cartItems);
-    // console.log(cartItems);
   };
 
   const onInput = (event) => {
@@ -71,64 +68,66 @@ function Shop() {
     }, 0);
     return sum;
   };
-
   return (
-    <div className="wrapper">
-      <Header onClickCart={() => setCartOpened(true)} sum={summ()} />
-      <Baner onClickCart={() => setCartOpened(true)} />
-      {cartOpened && (
-        <Cart
-          items={cartItems}
-          onRemove={onAddToCart}
-          onClose={() => setCartOpened(false)}
-          sum={summ()}
-        />
-      )}
-      <div className="content">
-        <div className="search-parent">
-          <h1>
-            {searchValue
-              ? `results for request: ${searchValue}`
-              : "All products"}
-          </h1>
-          <div className="search-block">
-            <img
-              src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/search.svg"
-              alt="search-logo"
-              onLoad={handleImageLoaded}
-              onError={handleImageError}
-            />
-            <input
-              onChange={onInput}
-              placeholder="Search product"
-              className="inp"
-            />
+    <CartContext.Provider value={{ cartItems, setCartItems }}>
+      <div className="wrapper">
+        <Header onClickCart={() => setCartOpened(true)} sum={summ()} />
+        <Baner onClickCart={() => setCartOpened(true)} />
+        {cartOpened && (
+          <Cart
+            items={cartItems}
+            onRemove={onAddToCart}
+            onClose={() => setCartOpened(false)}
+            sum={summ()}
+          />
+        )}
+
+        <div className="content">
+          <div className="search-parent">
+            <h1>
+              {searchValue
+                ? `results for request: ${searchValue}`
+                : "All products"}
+            </h1>
+            <div className="search-block">
+              <img
+                src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/search.svg"
+                alt="search-logo"
+                onLoad={handleImageLoaded}
+                onError={handleImageError}
+              />
+              <input
+                onChange={onInput}
+                placeholder="Search product"
+                className="inp"
+              />
+            </div>
+          </div>
+          <div className="sneakers">
+            {productsItems
+              .filter((item) =>
+                item.title.toLowerCase().includes(searchValue.toLowerCase())
+              )
+              .map((obj) => (
+                <Card
+                  id={obj.id}
+                  title={obj.title}
+                  price={obj.price}
+                  productImg={obj.productImg}
+                  onBuy={() => {
+                    onAddToCart(obj);
+                  }}
+                  srcBuy={
+                    obj.inCart
+                      ? "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/bought.svg"
+                      : "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btnBuy.svg"
+                  }
+                />
+              ))}
           </div>
         </div>
-        <div className="sneakers">
-          {productsItems
-            .filter((item) =>
-              item.title.toLowerCase().includes(searchValue.toLowerCase())
-            )
-            .map((obj) => (
-              <Card
-                id={obj.id}
-                title={obj.title}
-                price={obj.price}
-                productImg={obj.productImg}
-                onBuy={() => {
-                  onAddToCart(obj);
-                }}
-                srcBuy={
-                  obj.inCart
-                    ? "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/bought.svg"
-                    : "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btnBuy.svg"
-                }
-              />
-            ))}
-        </div>
       </div>
-    </div>
+    </CartContext.Provider>
   );
 }
 
