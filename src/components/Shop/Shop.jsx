@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import searchImg from "../../img/search.svg";
 import Header from "../Header/Header";
 import Baner from "../Baner/Baner";
 import Cart from "../Cart/Cart";
@@ -17,7 +18,7 @@ function Shop() {
     fetch("https://64139d9ea68505ea73376302.mockapi.io/react-shop/shoes ")
       .then((response) => response.json())
       .then((json) => {
-        setProductsItems(json.map((obj) => ({ ...obj, inCart: false })));
+        setProductsItems(json);
       });
     document.addEventListener("keydown", handleKeyPress);
     return () => {
@@ -42,34 +43,58 @@ function Shop() {
   };
 
   const onAddToCart = (obj) => {
-    setProductsItems((prevItems) => {
-      const updatedItems = prevItems.map((item) =>
-        item.id === obj.id ? { ...item, inCart: !obj.inCart } : item
-      );
-      addToItems(updatedItems);
-      return updatedItems;
-    });
+    const index = cartItems.indexOf(obj.id);
+    if (cartItems.includes(obj.id)) {
+      setCartItems([...removeItem(cartItems, index)]);
+    } else {
+      setCartItems((pervItems) => [...pervItems, obj.id]);
+    }
+
+    addToItems(cartItems);
   };
 
-  const addToItems = (products) => {
-    setCartItems(products.filter((item) => item.inCart));
+  const removeItem = (arr, index) => {
+    if (index !== -1) {
+      arr.splice(index, 1);
+    }
+    return arr;
   };
+
+  const checkInCart = (obj) => {
+    const candidate = cartItems.includes(obj.id);
+    if (candidate)
+      return "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/bought.svg";
+    if (!candidate)
+      return "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btnBuy.svg";
+  };
+
+  const addToItems = (products) => {};
 
   const onInput = (event) => {
     setSearchValue(event.target.value);
   };
 
-  const summ = () => {
-    const sum = productsItems.reduce((accumulator, obj) => {
-      if (obj.inCart) {
-        return accumulator + obj.price;
+  function sumPricesById(prices, ids) {
+    return ids.reduce((accumulator, id) => {
+      const index = id - 1;
+      if (index >= 0 && index < prices.length) {
+        return accumulator + prices[index].price;
       }
       return accumulator;
     }, 0);
-    return sum;
+  }
+  // const summ = useMemo(() => {
+  //   return sumPricesById(productsItems, cartItems);
+  // }, [productsItems, cartItems]);
+  const summ = () => {
+    if (!productsItems || !cartItems) {
+      return 0;
+    }
+    return sumPricesById(productsItems, cartItems);
   };
+
   return (
-    <CartContext.Provider value={{ cartItems, setCartItems }}>
+    <CartContext.Provider value={{ cartItems, setCartItems, productsItems }}>
       <div className="wrapper">
         <Header onClickCart={() => setCartOpened(true)} sum={summ()} />
         <Baner onClickCart={() => setCartOpened(true)} />
@@ -91,7 +116,7 @@ function Shop() {
             </h1>
             <div className="search-block">
               <img
-                src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/search.svg"
+                src={searchImg}
                 alt="search-logo"
                 onLoad={handleImageLoaded}
                 onError={handleImageError}
@@ -117,11 +142,7 @@ function Shop() {
                   onBuy={() => {
                     onAddToCart(obj);
                   }}
-                  srcBuy={
-                    obj.inCart
-                      ? "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/bought.svg"
-                      : "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btnBuy.svg"
-                  }
+                  srcBuy={checkInCart(obj)}
                 />
               ))}
           </div>

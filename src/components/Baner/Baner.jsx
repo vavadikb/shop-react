@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
 import "./index.css";
+import banerImg from "../../img/baner.svg";
 
 const Baner = ({ onClickCart }) => {
   return (
     <div className="baner">
       <img
-        src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/baner.svg"
+        src={banerImg}
         onClick={onClickCart}
         alt="baner"
         onLoad={() => console.log("img loaded sucssesfully")}

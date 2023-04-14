@@ -1,16 +1,13 @@
 import React from "react";
-import "./index.css"
+import logo from "../../img/logo2.svg";
+import cart from "../../img/cart.svg";
+import "./index.css";
 
 const Header = ({ onClickCart, sum }) => {
   return (
     <header>
       <div className="leftHeader">
-        <img
-          src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/logo2.svg"
-          width={40}
-          height={40}
-          alt="logo"
-        />
+        <img src={logo} width={40} height={40} alt="logo" />
         <div className="headerInfo">
           <h3>REACT SHOP</h3>
           <p>The best sneakers shop</p>
@@ -19,7 +16,7 @@ const Header = ({ onClickCart, sum }) => {
       <ul className="rightHeader">
         <li>
           <button className="cartBtn" onClick={onClickCart}>
-            <img src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/cart.svg" alt="cart"/>
+            <img src={cart} alt="cart" />
           </button>
           <span>{sum + "$"}</span>
         </li>

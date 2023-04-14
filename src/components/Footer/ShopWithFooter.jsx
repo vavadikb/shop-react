@@ -1,4 +1,5 @@
 import Footer from "./Footer";
+import Shop from "../Shop/Shop";
 
 const HOCFooter = (WrappedComponent) => {
   const ComponentWithFooter = (props) => (
@@ -10,4 +11,5 @@ const HOCFooter = (WrappedComponent) => {
 
   return ComponentWithFooter;
 };
-export default HOCFooter;
+const ShopWithFooter = HOCFooter(Shop);
+export default ShopWithFooter;

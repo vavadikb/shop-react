@@ -1,17 +1,21 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import CartItemsList from "./CartItemsList";
 import "./index.css";
+import CartContext from "../Contexts/CartContext";
 
 const Cart = ({ items, onClose, onRemove, sum }) => {
-  const [inCartItems, setInCartItems] = useState([]);
+  const { cartItems, productsItems } = useContext(CartContext);
+  const [selectedData, setSelectedData] = useState([]);
 
   useEffect(() => {
     itemsAdded();
   }, [items]);
 
   const itemsAdded = () => {
-    const newArr = items.filter((item) => item.inCart);
-    setInCartItems(newArr);
+    const selectedItems = productsItems.filter((item) =>
+      cartItems.includes(item.id)
+    );
+    setSelectedData(selectedItems);
   };
 
   const onDragStart = (e, index) => {
@@ -24,26 +28,26 @@ const Cart = ({ items, onClose, onRemove, sum }) => {
 
   const handleImageLoaded = () => {
     console.log("Image loaded successfully");
-    setInCartItems((prevState) => ({ ...prevState, imageLoaded: true }));
+    setSelectedData((prevState) => ({ ...prevState, imageLoaded: true }));
   };
 
   const handleImageError = () => {
     console.log("Error loading image");
-    setInCartItems((prevState) => ({ ...prevState, imageError: true }));
+    setSelectedData((prevState) => ({ ...prevState, imageError: true }));
   };
 
   const onDrop = (e, index) => {
     const fromIndex = e.dataTransfer.getData("index");
-    const newItemList = [...inCartItems];
+    const newItemList = [...selectedData];
     const removedItem = newItemList.splice(fromIndex, 1)[0];
     newItemList.splice(index, 0, removedItem);
-    setInCartItems(newItemList);
+    setSelectedData(newItemList);
   };
 
   return (
     <CartItemsList
       onClose={onClose}
-      items={inCartItems}
+      items={selectedData}
       onRemove={onRemove}
       sum={sum}
       onDragStart={onDragStart}

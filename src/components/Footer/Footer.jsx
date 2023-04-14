@@ -3,12 +3,12 @@ import "./Footer.css";
 
 const Footer = () => {
   return (
-    <div class="footer-bottom">
+    <div className="footer-bottom">
       <p>
         Footer <br />
         Best Sneackers &copy; <a href="#">React Shop</a>
       </p>
-    </div>  
+    </div>
   );
 };
 export default Footer;

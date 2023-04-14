@@ -1,5 +1,7 @@
 import React from "react";
 import "./index.css";
+import removeBtnImg from "../../img/btn-remove.svg";
+import orderBtn from "../../img/orderBtn.svg";
 
 const CartItemsList = ({
   items,
@@ -14,11 +16,7 @@ const CartItemsList = ({
     <div className="drawer">
       <div className="header">
         <h2>Cart</h2>
-        <img
-          onClick={onClose}
-          src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btn-remove.svg"
-          alt="remove"
-        />
+        <img onClick={onClose} src={removeBtnImg} alt="remove" />
       </div>
       <div className="item">
         {items.map((obj, index) => (
@@ -46,7 +44,7 @@ const CartItemsList = ({
             <img
               className="removeBtn"
               onClick={() => onRemove(obj)}
-              src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btn-remove.svg"
+              src={removeBtnImg}
               alt="remove"
             />
           </div>
@@ -71,10 +69,7 @@ const CartItemsList = ({
                 : () => alert("you have no items in cart")
             }
           >
-            <img
-              src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/orderBtn.svg"
-              alt="orderButton"
-            />
+            <img src={orderBtn} alt="orderButton" />
           </button>
         </ul>
       </div>
