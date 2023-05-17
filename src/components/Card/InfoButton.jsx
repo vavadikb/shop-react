@@ -1,11 +1,13 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const InfoButton = ({ price, onClickBuy, srcBuy }) => {
+  const { t } = useTranslation();
   return (
     <div className="infoBtn">
       <div className="info">
         <span>
-          Price:
+          {t("translation.price")}
           <br />
           <b>{price}</b>
         </span>

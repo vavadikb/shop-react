@@ -5,8 +5,11 @@ import Baner from "../Baner/Baner";
 import Cart from "../Cart/Cart";
 import Card from "../Card/Card";
 import CartContext from "../Contexts/CartContext";
+import { useTranslation } from "react-i18next";
 
 function Shop() {
+  const { t } = useTranslation();
+
   const [searchValue, setSearchValue] = useState("");
   const [cartOpened, setCartOpened] = useState(false);
   const [productsItems, setProductsItems] = useState([]);
@@ -83,9 +86,6 @@ function Shop() {
       return accumulator;
     }, 0);
   }
-  // const summ = useMemo(() => {
-  //   return sumPricesById(productsItems, cartItems);
-  // }, [productsItems, cartItems]);
   const summ = () => {
     if (!productsItems || !cartItems) {
       return 0;
@@ -123,7 +123,7 @@ function Shop() {
               />
               <input
                 onChange={onInput}
-                placeholder="Search product"
+                placeholder={t("translation.search")}
                 className="inp"
               />
             </div>

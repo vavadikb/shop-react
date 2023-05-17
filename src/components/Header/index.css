@@ -1,35 +1,52 @@
-
 header {
-    display: flex;
-    justify-content: space-between;
-    padding: 40px;
-    border-bottom: 1px solid #eaeaea;
-  }
-  header .leftHeader {
-    display: flex;
-    align-items: center;
-  }
-  header .rightHeader img {
-    cursor: pointer;
-  }
-  header .cartBtn {
-    border: none;
-    cursor: pointer;
-    background-color: #e7f6ff;
-  }
-  header img {
-    margin-right: 15px;
-  }
-  header li {
-    display: inline;
-    list-style-type: none;
-    margin-right: 30px;
-  }
-  header li span {
-    margin-left: 15px;
-  }
-  header h3,
-  header p {
-    margin: 0;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  padding: 40px;
+  border-bottom: 1px solid #eaeaea;
+}
+header .leftHeader {
+  display: flex;
+  align-items: center;
+}
+header .rightHeader img {
+  cursor: pointer;
+}
+header .cartBtn {
+  border: none;
+  cursor: pointer;
+  background-color: #e7f6ff;
+}
+header img {
+  margin-right: 15px;
+}
+header li {
+  display: inline;
+  list-style-type: none;
+  margin-right: 30px;
+}
+header li span {
+  margin-left: 15px;
+}
+header h3,
+header p {
+  margin: 0;
+}
+
+.language-switch-container {
+  display: flex;
+}
+
+.language-switch-button {
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #a1c99d;
+  padding: 8px 16px;
+  margin-right: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.language-switch-button:hover {
+  background-color: #a1c99d;
+  color: #fff;
+}
