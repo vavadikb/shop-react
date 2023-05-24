@@ -4,12 +4,12 @@ import Header from "../Header/Header";
 import Baner from "../Baner/Baner";
 import Cart from "../Cart/Cart";
 import Card from "../Card/Card";
-
 import CartContext from "../Contexts/CartContext";
 import { useSelector, useDispatch } from "react-redux";
-import { setProducts } from "../../store/slices/productSlice";
 import { addToCart, removeFromCart, toggleCart } from "../../store/slices/cartSlice";
 import { useTranslation } from "react-i18next";
+import { fetchProducts } from "../../store/slices/fetch";
+
 
 function Shop() {
   const [searchValue, setSearchValue] = useState("");
@@ -17,16 +17,12 @@ function Shop() {
   const cartOpened = useSelector((state) => state.cart.isOpen)
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const productsItems = useSelector((state) => state.products);
+  const productsItems = useSelector((state) => state.fetch);
   console.log(useSelector((state) => state.cart))
 
   const cartItems = useSelector((state) => state.cart.items);
   useEffect(() => {
-    fetch("https://64139d9ea68505ea73376302.mockapi.io/react-shop/shoes ")
-      .then((response) => response.json())
-      .then((json) => {
-        dispatch(setProducts(json));
-      });
+    dispatch(fetchProducts())
     document.addEventListener("keydown", handleKeyPress);
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
