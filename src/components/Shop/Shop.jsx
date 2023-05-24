@@ -1,77 +1,67 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import searchImg from "../../img/search.svg";
 import Header from "../Header/Header";
 import Baner from "../Baner/Baner";
 import Cart from "../Cart/Cart";
 import Card from "../Card/Card";
+
 import CartContext from "../Contexts/CartContext";
+import { useSelector, useDispatch } from "react-redux";
+import { setProducts } from "../../store/slices/productSlice";
+import { addToCart, removeFromCart, toggleCart } from "../../store/slices/cartSlice";
 import { useTranslation } from "react-i18next";
 
 function Shop() {
-  const { t } = useTranslation();
-
   const [searchValue, setSearchValue] = useState("");
-  const [cartOpened, setCartOpened] = useState(false);
-  const [productsItems, setProductsItems] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
-  const [loading, setImageLoaded] = useState(false);
-  const [error, setImageError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const cartOpened = useSelector((state) => state.cart.isOpen)
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const productsItems = useSelector((state) => state.products);
+  console.log(useSelector((state) => state.cart))
 
+  const cartItems = useSelector((state) => state.cart.items);
   useEffect(() => {
     fetch("https://64139d9ea68505ea73376302.mockapi.io/react-shop/shoes ")
       .then((response) => response.json())
       .then((json) => {
-        setProductsItems(json);
+        dispatch(setProducts(json));
       });
     document.addEventListener("keydown", handleKeyPress);
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
-  }, []);
+  }, [dispatch]);
 
   const handleKeyPress = (event) => {
     if (event.key === "Control") {
-      setCartOpened(true);
+      dispatch(toggleCart());
     }
+  };
+
+  const onAddToCart = (obj) => {
+    dispatch(addToCart(obj.id));
+  };
+
+  const onRemoveFromCart = (obj) => {
+    dispatch(removeFromCart(obj.id));
   };
 
   const handleImageLoaded = () => {
     console.log("Image loaded successfully");
-    setImageLoaded(true);
+    setLoading(true);
   };
 
   const handleImageError = () => {
     console.log("Error loading image");
-    setImageError(true);
-  };
-
-  const onAddToCart = (obj) => {
-    const index = cartItems.indexOf(obj.id);
-    if (cartItems.includes(obj.id)) {
-      setCartItems([...removeItem(cartItems, index)]);
-    } else {
-      setCartItems((pervItems) => [...pervItems, obj.id]);
-    }
-
-    addToItems(cartItems);
-  };
-
-  const removeItem = (arr, index) => {
-    if (index !== -1) {
-      arr.splice(index, 1);
-    }
-    return arr;
+    setLoading(true);
   };
 
   const checkInCart = (obj) => {
-    const candidate = cartItems.includes(obj.id);
-    if (candidate)
-      return "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/bought.svg";
-    if (!candidate)
-      return "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btnBuy.svg";
+    return cartItems.includes(obj.id)
+      ? "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/bought.svg"
+      : "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btnBuy.svg";
   };
-
-  const addToItems = (products) => {};
 
   const onInput = (event) => {
     setSearchValue(event.target.value);
@@ -86,6 +76,7 @@ function Shop() {
       return accumulator;
     }, 0);
   }
+
   const summ = () => {
     if (!productsItems || !cartItems) {
       return 0;
@@ -94,18 +85,11 @@ function Shop() {
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, setCartItems, productsItems }}>
+    <CartContext.Provider value={{ cartItems, setCartItems: onRemoveFromCart, productsItems }}>
       <div className="wrapper">
-        <Header onClickCart={() => setCartOpened(true)} sum={summ()} />
-        <Baner onClickCart={() => setCartOpened(true)} />
-        {cartOpened && (
-          <Cart
-            items={cartItems}
-            onRemove={onAddToCart}
-            onClose={() => setCartOpened(false)}
-            sum={summ()}
-          />
-        )}
+        <Header onClickCart={() => dispatch(toggleCart())} sum={summ()} />
+        <Baner onClickCart={() => dispatch(toggleCart())} />
+        {cartOpened && <Cart onClose={() => dispatch(toggleCart())} sum={summ()} />}
 
         <div className="content">
           <div className="search-parent">
@@ -135,13 +119,12 @@ function Shop() {
               )
               .map((obj) => (
                 <Card
+                  key={obj.id}
                   id={obj.id}
                   title={obj.title}
                   price={obj.price}
                   productImg={obj.productImg}
-                  onBuy={() => {
-                    onAddToCart(obj);
-                  }}
+                  onBuy={() => onAddToCart(obj)}
                   srcBuy={checkInCart(obj)}
                 />
               ))}

@@ -1,17 +1,22 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import CartItemsList from "./CartItemsList";
-import "./index.css";
 import CartContext from "../Contexts/CartContext";
+import { removeFromCart } from "../../store/slices/cartSlice";
 
-const Cart = ({ items, onClose, onRemove, sum }) => {
-  const { cartItems, productsItems } = useContext(CartContext);
+const Cart = ({ onClose, sum }) => {
+  const cartItems = useSelector((state) => state.cart.items);
+  const productsItems = useSelector((state) => state.products);
+  const dispatch = useDispatch();
   const [selectedData, setSelectedData] = useState([]);
+  console.log(useSelector((state) => state.cart))
 
   useEffect(() => {
     itemsAdded();
-  }, [items]);
+  }, [cartItems, productsItems]);
 
   const itemsAdded = () => {
+
     const selectedItems = productsItems.filter((item) =>
       cartItems.includes(item.id)
     );
@@ -42,6 +47,10 @@ const Cart = ({ items, onClose, onRemove, sum }) => {
     const removedItem = newItemList.splice(fromIndex, 1)[0];
     newItemList.splice(index, 0, removedItem);
     setSelectedData(newItemList);
+  };
+
+  const onRemove = (obj) => {
+    dispatch(removeFromCart(obj.id));
   };
 
   return (
