@@ -8,7 +8,7 @@ import CartContext from "../Contexts/CartContext";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart, removeFromCart, toggleCart } from "../../store/slices/cartSlice";
 import { useTranslation } from "react-i18next";
-import { fetchProducts } from "../../store/slices/fetch";
+import { fetchProducts } from "../../store/slices/productSlice";
 
 
 function Shop() {
@@ -17,7 +17,7 @@ function Shop() {
   const cartOpened = useSelector((state) => state.cart.isOpen)
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const productsItems = useSelector((state) => state.fetch);
+  const productsItems = useSelector((state) => state.products);
   console.log(useSelector((state) => state.cart))
 
   const cartItems = useSelector((state) => state.cart.items);
@@ -36,6 +36,8 @@ function Shop() {
   };
 
   const onAddToCart = (obj) => {
+    console.log(cartItems)
+
     dispatch(addToCart(obj.id));
   };
 
