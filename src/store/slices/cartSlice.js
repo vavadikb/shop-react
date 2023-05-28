@@ -19,7 +19,6 @@ const cartSlice = createSlice({
             state.items = state.items.filter((item) => item !== action.payload);
         },
         toggleCart: (state) => {
-            console.log(state)
             state.isOpen = !state.isOpen;
         },
     },

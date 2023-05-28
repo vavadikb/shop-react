@@ -2,14 +2,14 @@ import React, { useState, useEffect, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import CartItemsList from "./CartItemsList";
 import CartContext from "../Contexts/CartContext";
+import { cartOpenFunc, productsFunc, itemsFunc } from "../../store/selectorFunc";
 import { removeFromCart } from "../../store/slices/cartSlice";
 
 const Cart = ({ onClose, sum }) => {
-  const cartItems = useSelector((state) => state.cart.items);
-  const productsItems = useSelector((state) => state.products);
+  const cartItems = useSelector(itemsFunc);
+  const productsItems = useSelector(productsFunc);
   const dispatch = useDispatch();
   const [selectedData, setSelectedData] = useState([]);
-  console.log(useSelector((state) => state.cart))
 
   useEffect(() => {
     itemsAdded();

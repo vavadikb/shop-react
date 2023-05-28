@@ -9,18 +9,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { addToCart, removeFromCart, toggleCart } from "../../store/slices/cartSlice";
 import { useTranslation } from "react-i18next";
 import { fetchProducts } from "../../store/slices/productSlice";
-
+import { cartOpenFunc, productsFunc, itemsFunc } from "../../store/selectorFunc";
 
 function Shop() {
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(false);
-  const cartOpened = useSelector((state) => state.cart.isOpen)
+  const cartOpened = useSelector(cartOpenFunc)
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const productsItems = useSelector((state) => state.products);
-  console.log(useSelector((state) => state.cart))
+  const productsItems = useSelector(productsFunc);
+  const cartItems = useSelector(itemsFunc);
 
-  const cartItems = useSelector((state) => state.cart.items);
   useEffect(() => {
     dispatch(fetchProducts())
     document.addEventListener("keydown", handleKeyPress);
@@ -36,8 +35,6 @@ function Shop() {
   };
 
   const onAddToCart = (obj) => {
-    console.log(cartItems)
-
     dispatch(addToCart(obj.id));
   };
 
