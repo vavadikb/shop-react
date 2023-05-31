@@ -5,10 +5,9 @@ import CartContext from "../Contexts/CartContext";
 import { cartOpenFunc, productsFunc, itemsFunc } from "../../store/selectorFunc";
 import { removeFromCart } from "../../store/slices/cartSlice";
 
-const Cart = ({ onClose, sum }) => {
+const Cart = ({ onClose, sum, productsItems}) => {
   const cartItems = useSelector(itemsFunc);
   console.log(cartItems, onClose, sum, 'cart items ')
-  const productsItems = useSelector(productsFunc);
   console.log(productsItems)
   const dispatch = useDispatch();
   const [selectedData, setSelectedData] = useState([]);

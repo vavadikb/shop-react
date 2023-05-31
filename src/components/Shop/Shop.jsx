@@ -112,7 +112,7 @@ function Shop() {
         />
         <Baner onClickCart={() => dispatch(toggleCart())} />
         {cartOpened && (
-          <Cart onClose={() => dispatch(toggleCart())} sum={summ()} />
+          <Cart onClose={() => dispatch(toggleCart())} sum={summ()} productsItems={productsItems} />
         )}
 
         <div className="content">
