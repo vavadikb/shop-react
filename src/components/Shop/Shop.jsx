@@ -6,21 +6,29 @@ import Cart from "../Cart/Cart";
 import Card from "../Card/Card";
 import CartContext from "../Contexts/CartContext";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart, removeFromCart, toggleCart } from "../../store/slices/cartSlice";
+import {
+  addToCart,
+  removeFromCart,
+  toggleCart,
+} from "../../store/slices/cartSlice";
 import { useTranslation } from "react-i18next";
 import { fetchProducts } from "../../store/slices/productSlice";
-import { cartOpenFunc, productsFunc, itemsFunc } from "../../store/selectorFunc";
+import {
+  cartOpenFunc,
+  productsFunc,
+  itemsFunc,
+} from "../../store/selectorFunc";
 import { useFetchProductsQuery } from "../../store/slices/productSlice";
 
 function Shop() {
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(false);
-  const cartOpened = useSelector(cartOpenFunc)
+  const cartOpened = useSelector(cartOpenFunc);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const cartItems = useSelector(itemsFunc);
-  const { data:productsItems, isLoading,error } = useFetchProductsQuery();
-  console.log(productsItems,isLoading,error)
+  const { data: productsItems, isLoading, error } = useFetchProductsQuery();
+  console.log(productsItems, isLoading, error);
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyPress);
@@ -28,7 +36,6 @@ function Shop() {
       document.removeEventListener("keydown", handleKeyPress);
     };
   }, [dispatch]);
-
 
   const handleKeyPress = (event) => {
     if (event.key === "Control") {
@@ -80,22 +87,33 @@ function Shop() {
     }
     return sumPricesById(productsItems, cartItems);
   };
-  
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  
-  console.log(cartOpened)
+
+  console.log(cartOpened);
 
   if (error) {
     return <div>Error: {error.message}</div>;
   }
+
   return (
-    <CartContext.Provider value={{ cartItems, setCartItems: onRemoveFromCart, productsItems }}>
+    <CartContext.Provider
+      value={{ cartItems, setCartItems: onRemoveFromCart, productsItems }}
+    >
       <div className="wrapper">
-        <Header onClickCart={() => {dispatch(toggleCart()); console.log(cartOpened)}} sum={summ()} />
+        <Header
+          onClickCart={() => {
+            dispatch(toggleCart());
+            console.log(cartOpened);
+          }}
+          sum={summ()}
+        />
         <Baner onClickCart={() => dispatch(toggleCart())} />
-        {cartOpened && <Cart onClose={() => dispatch(toggleCart())} sum={summ()} />}
+        {cartOpened && (
+          <Cart onClose={() => dispatch(toggleCart())} sum={summ()} />
+        )}
 
         <div className="content">
           <div className="search-parent">

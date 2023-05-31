@@ -14,7 +14,7 @@ const CartItemsList = ({
   onClose,
 }) => {
   const { t } = useTranslation();
-
+  console.log(items, sum)
   return (
     <div className="overlay">
       <div className="drawer">

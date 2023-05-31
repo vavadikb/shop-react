@@ -7,22 +7,26 @@ import { removeFromCart } from "../../store/slices/cartSlice";
 
 const Cart = ({ onClose, sum }) => {
   const cartItems = useSelector(itemsFunc);
+  console.log(cartItems, onClose, sum, 'cart items ')
   const productsItems = useSelector(productsFunc);
+  console.log(productsItems)
   const dispatch = useDispatch();
   const [selectedData, setSelectedData] = useState([]);
+  
 
   useEffect(() => {
     itemsAdded();
   }, [cartItems, productsItems]);
 
   const itemsAdded = () => {
-
-    const selectedItems = productsItems.filter((item) =>
-      cartItems.includes(item.id)
-    );
-    setSelectedData(selectedItems);
+    if (Array.isArray(productsItems)) {
+      const selectedItems = productsItems.filter((item) =>
+        cartItems.includes(item.id)
+      );
+      setSelectedData(selectedItems);
+      console.log(selectedData, selectedItems)
+    }
   };
-
   const onDragStart = (e, index) => {
     e.dataTransfer.setData("index", index);
   };
