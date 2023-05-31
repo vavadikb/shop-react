@@ -1,11 +1,19 @@
-import { combineReducers } from "@reduxjs/toolkit";
-import cartSlice from "../slices/cartSlice";
-import productSlice from "../slices/productSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query/react';
+import cartSlice from '../slices/cartSlice';
+// import { productsApi } from '../slices/productSlice'; // Импортируем API-сервис RTK Query
+import productsApi from '../slices/productSlice';
 
-
-const rootReducer = combineReducers({
+const store = configureStore({
+  reducer: {
     cart: cartSlice,
-    products: productSlice,
+    [productsApi.reducerPath]: productsApi.reducer, // Добавляем редьюсер RTK Query для products
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(productsApi.middleware), // Добавляем middleware RTK Query для products
 });
 
-export default rootReducer;
+setupListeners(store.dispatch);
+console.log(store.dispatch)
+
+export default store;
