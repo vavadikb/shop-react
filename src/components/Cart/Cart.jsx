@@ -4,6 +4,7 @@ import CartItemsList from "./CartItemsList";
 import CartContext from "../Contexts/CartContext";
 import { cartOpenFunc, productsFunc, itemsFunc } from "../../store/selectorFunc";
 import { removeFromCart } from "../../store/slices/cartSlice";
+import useImageLoader from "../../hooks/useIageLoader";
 
 const Cart = ({ onClose, sum, productsItems}) => {
   const cartItems = useSelector(itemsFunc);
@@ -11,6 +12,8 @@ const Cart = ({ onClose, sum, productsItems}) => {
   console.log(productsItems)
   const dispatch = useDispatch();
   const [selectedData, setSelectedData] = useState([]);
+  const { imageLoaded, imageError, handleImageLoaded, handleImageError } = useImageLoader();
+
   
 
   useEffect(() => {
@@ -32,16 +35,6 @@ const Cart = ({ onClose, sum, productsItems}) => {
 
   const onDragOver = (e) => {
     e.preventDefault();
-  };
-
-  const handleImageLoaded = () => {
-    console.log("Image loaded successfully");
-    setSelectedData((prevState) => ({ ...prevState, imageLoaded: true }));
-  };
-
-  const handleImageError = () => {
-    console.log("Error loading image");
-    setSelectedData((prevState) => ({ ...prevState, imageError: true }));
   };
 
   const onDrop = (e, index) => {

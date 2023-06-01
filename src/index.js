@@ -1,8 +1,7 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { I18nextProvider } from "react-i18next";
-// import store from "./store/store";
 import store from "./store/reducers/rootReducer";
 import "./index.css";
 import App from "./App";

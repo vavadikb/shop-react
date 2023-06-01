@@ -1,19 +1,9 @@
 import React, { useState } from "react";
+import useImageLoader from "../../hooks/useIageLoader";
 
 function CartItem(props) {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
   const { title, price, productImg } = props;
-
-  const handleImageLoaded = () => {
-    console.log("Image loaded successfully");
-    setImageLoaded(true);
-  };
-
-  const handleImageError = () => {
-    console.log("Error loading image");
-    setImageError(true);
-  };
+  const { imageLoaded, imageError, handleImageLoaded, handleImageError } = useImageLoader();
 
   return (
     <div className="cart-item">

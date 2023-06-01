@@ -19,6 +19,7 @@ import {
   itemsFunc,
 } from "../../store/selectorFunc";
 import { useFetchProductsQuery } from "../../store/slices/productSlice";
+import useImageLoader from "../../hooks/useIageLoader";
 
 function Shop() {
   const [searchValue, setSearchValue] = useState("");
@@ -28,7 +29,8 @@ function Shop() {
   const dispatch = useDispatch();
   const cartItems = useSelector(itemsFunc);
   const { data: productsItems, isLoading, error } = useFetchProductsQuery();
-  console.log(productsItems, isLoading, error);
+  const { imageLoaded, imageError, handleImageLoaded, handleImageError } = useImageLoader();
+
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyPress);
@@ -51,15 +53,15 @@ function Shop() {
     dispatch(removeFromCart(obj.id));
   };
 
-  const handleImageLoaded = () => {
-    console.log("Image loaded successfully");
-    setLoading(true);
-  };
+  // const handleImageLoaded = () => {
+  //   console.log("Image loaded successfully");
+  //   setLoading(true);
+  // };
 
-  const handleImageError = () => {
-    console.log("Error loading image");
-    setLoading(true);
-  };
+  // const handleImageError = () => {
+  //   console.log("Error loading image");
+  //   setLoading(true);
+  // };
 
   const checkInCart = (obj) => {
     return cartItems.includes(obj.id)
