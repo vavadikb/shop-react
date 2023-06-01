@@ -67,11 +67,7 @@ const CartItemsList = ({
             </li>
             <button
               className="orderBtn"
-              onClick={
-                sum
-                  ? () => alert("Thank you, Your order in progress")
-                  : () => alert("you have no items in cart")
-              }
+              onClick= {() => alert(sum ? "Thank you, Your order in progress" : "you have no items in cart")}
             >
               <img src={orderBtn} alt="orderButton" />
             </button>
