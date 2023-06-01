@@ -19,23 +19,28 @@
   background: #ffffff;
   box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.01);
 }
+
 .drawer .header {
   display: flex;
   justify-content: space-between;
   margin-right: 20px;
 }
+
 .drawer .header img {
   cursor: pointer;
 }
+
 .drawer h2 {
   margin: 0;
   padding: 5%;
   font-size: 24px;
 }
+
 .drawer .item {
   flex: 1;
   overflow: auto;
 }
+
 .drawer .cartItem {
   display: flex;
   justify-content: space-between;
@@ -45,35 +50,43 @@
   overflow: hidden;
   margin-bottom: 20px;
 }
+
 .drawer .cartItem p {
   margin-bottom: 5px;
   font-size: 16px;
 }
+
 .drawer .cartItem img {
   margin: 0;
   padding: 5%;
 }
+
 .drawer .cartItem b {
   margin: 0;
   padding: 5%;
   font-size: 14px;
 }
+
 .drawer .cartItem .discription-product {
   margin: none;
 }
+
 .drawer .cartItem .removeBtn {
   opacity: 0.5;
   transition: opacity 0.2s ease-in-out;
   cursor: pointer;
 }
+
 .drawer .cartItem .removeBtn:hover {
   opacity: 1;
 }
+
 .drawer .cartTotal {
   margin: 0;
   padding-right: 10px;
   padding-left: 10px;
 }
+
 .drawer .cartTotal div {
   position: relative;
   flex: 1;
@@ -82,6 +95,7 @@
   top: -7px;
   margin: 0 10px;
 }
+
 .drawer .cartTotal li {
   display: flex;
   flex-direction: row;
@@ -89,6 +103,7 @@
   align-items: flex-end;
   margin-bottom: 20px;
 }
+
 .drawer .cartTotal button {
   padding: 0;
   border: none;
@@ -99,6 +114,7 @@
   transition: 0.15s ease-in-out;
   cursor: pointer;
 }
+
 .drawer .cartTotal button:hover {
   border-radius: 25px;
   transform: translateX(2px);

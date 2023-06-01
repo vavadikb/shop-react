@@ -1,20 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import "./index.css";
 import InfoButton from "./InfoButton";
+import useImageLoader from "../../hooks/useIageLoader";
 
 const Card = (props) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
-
-  const handleImageLoaded = () => {
-    console.log("Image loaded successfully");
-    setImageLoaded(true);
-  };
-
-  const handleImageError = () => {
-    console.log("Error loading image");
-    setImageError(true);
-  };
+  const { imageLoaded, imageError, handleImageLoaded, handleImageError } = useImageLoader();
 
   const onClickBuy = () => {
     const { onBuy } = props;

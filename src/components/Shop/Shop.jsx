@@ -1,133 +1,163 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import searchImg from "../../img/search.svg";
 import Header from "../Header/Header";
 import Baner from "../Baner/Baner";
 import Cart from "../Cart/Cart";
 import Card from "../Card/Card";
+import CartContext from "../Contexts/CartContext";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addToCart,
+  removeFromCart,
+  toggleCart,
+} from "../../store/slices/cartSlice";
+import { useTranslation } from "react-i18next";
+import { fetchProducts } from "../../store/slices/productSlice";
+import {
+  cartOpenFunc,
+  productsFunc,
+  itemsFunc,
+} from "../../store/selectorFunc";
+import { useFetchProductsQuery } from "../../store/slices/productSlice";
+import useImageLoader from "../../hooks/useIageLoader";
 
 function Shop() {
   const [searchValue, setSearchValue] = useState("");
-  const [cartOpened, setCartOpened] = useState(false);
-  const [productsItems, setProductsItems] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
-  const [loading, setImageLoaded] = useState(false);
-  const [error, setImageError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const cartOpened = useSelector(cartOpenFunc);
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const cartItems = useSelector(itemsFunc);
+  const { data: productsItems, isLoading, error } = useFetchProductsQuery();
+  const { imageLoaded, imageError, handleImageLoaded, handleImageError } = useImageLoader();
+
 
   useEffect(() => {
-    fetch("https://64139d9ea68505ea73376302.mockapi.io/react-shop/shoes ")
-      .then((response) => response.json())
-      .then((json) => {
-        let newArr = json.map((obj) => ({ ...obj, inCart: false }));
-        setProductsItems(newArr);
-      });
-    addToItems(productsItems);
     document.addEventListener("keydown", handleKeyPress);
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
-  }, []);
+  }, [dispatch]);
 
   const handleKeyPress = (event) => {
     if (event.key === "Control") {
-      setCartOpened(true);
+      dispatch(toggleCart());
     }
   };
 
-  const handleImageLoaded = () => {
-    console.log("Image loaded successfully");
-    setImageLoaded(true);
-  };
-
-  const handleImageError = () => {
-    console.log("Error loading image");
-    setImageError(true);
-  };
-
   const onAddToCart = (obj) => {
-    setProductsItems((prevItems) => {
-      const updatedItems = prevItems.map((item) =>
-        item.id === obj.id ? { ...item, inCart: !obj.inCart } : item
-      );
-      addToItems(updatedItems);
-      return updatedItems;
-    });
+    dispatch(addToCart(obj.id));
   };
 
-  const addToItems = (products) => {
-    const newArr = products.filter((item) => item.inCart);
-    setCartItems(newArr);
+  const onRemoveFromCart = (obj) => {
+    dispatch(removeFromCart(obj.id));
+  };
+
+  // const handleImageLoaded = () => {
+  //   console.log("Image loaded successfully");
+  //   setLoading(true);
+  // };
+
+  // const handleImageError = () => {
+  //   console.log("Error loading image");
+  //   setLoading(true);
+  // };
+
+  const checkInCart = (obj) => {
+    return cartItems.includes(obj.id)
+      ? "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/bought.svg"
+      : "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btnBuy.svg";
   };
 
   const onInput = (event) => {
     setSearchValue(event.target.value);
   };
 
-  const summ = () => {
-    const sum = productsItems.reduce((accumulator, obj) => {
-      if (obj.inCart) {
-        return accumulator + obj.price;
+  function sumPricesById(prices, ids) {
+    return ids.reduce((accumulator, id) => {
+      const index = id - 1;
+      if (index >= 0 && index < prices.length) {
+        return accumulator + prices[index].price;
       }
       return accumulator;
     }, 0);
-    return sum;
+  }
+
+  const summ = () => {
+    if (!productsItems || !cartItems) {
+      return 0;
+    }
+    return sumPricesById(productsItems, cartItems);
   };
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  console.log(cartOpened);
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
   return (
-    <div className="wrapper">
-      <Header onClickCart={() => setCartOpened(true)} sum={summ()} />
-      <Baner onClickCart={() => setCartOpened(true)} />
-      {cartOpened && (
-        <Cart
-          items={cartItems}
-          onRemove={onAddToCart}
-          onClose={() => setCartOpened(false)}
+    <CartContext.Provider
+      value={{ cartItems, setCartItems: onRemoveFromCart, productsItems }}
+    >
+      <div className="wrapper">
+        <Header
+          onClickCart={() => {
+            dispatch(toggleCart());
+            console.log(cartOpened);
+          }}
           sum={summ()}
         />
-      )}
-      <div className="content">
-        <div className="search-parent">
-          <h1>
-            {searchValue
-              ? `results for request: ${searchValue}`
-              : "All products"}
-          </h1>
-          <div className="search-block">
-            <img
-              src="https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/search.svg"
-              alt="search-logo"
-              onLoad={handleImageLoaded}
-              onError={handleImageError}
-            />
-            <input
-              onChange={onInput}
-              placeholder="Search product"
-              className="inp"
-            />
+        <Baner onClickCart={() => dispatch(toggleCart())} />
+        {cartOpened && (
+          <Cart onClose={() => dispatch(toggleCart())} sum={summ()} productsItems={productsItems} />
+        )}
+
+        <div className="content">
+          <div className="search-parent">
+            <h1>
+              {searchValue
+                ? `results for request: ${searchValue}`
+                : "All products"}
+            </h1>
+            <div className="search-block">
+              <img
+                src={searchImg}
+                alt="search-logo"
+                onLoad={handleImageLoaded}
+                onError={handleImageError}
+              />
+              <input
+                onChange={onInput}
+                placeholder={t("translation.search")}
+                className="inp"
+              />
+            </div>
+          </div>
+          <div className="sneakers">
+            {productsItems
+              .filter((item) =>
+                item.title.toLowerCase().includes(searchValue.toLowerCase())
+              )
+              .map((obj) => (
+                <Card
+                  key={obj.id}
+                  id={obj.id}
+                  title={obj.title}
+                  price={obj.price}
+                  productImg={obj.productImg}
+                  onBuy={() => onAddToCart(obj)}
+                  srcBuy={checkInCart(obj)}
+                />
+              ))}
           </div>
         </div>
-        <div className="sneakers">
-          {productsItems
-            .filter((item) =>
-              item.title.toLowerCase().includes(searchValue.toLowerCase())
-            )
-            .map((obj) => (
-              <Card
-                id={obj.id}
-                title={obj.title}
-                price={obj.price}
-                productImg={obj.productImg}
-                onBuy={() => {
-                  onAddToCart(obj);
-                }}
-                srcBuy={
-                  obj.inCart
-                    ? "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/bought.svg"
-                    : "https://raw.githubusercontent.com/vavadikb/shop-react/main/public/img/btnBuy.svg"
-                }
-              />
-            ))}
-        </div>
       </div>
-    </div>
+    </CartContext.Provider>
   );
 }
 

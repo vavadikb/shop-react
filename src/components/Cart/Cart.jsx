@@ -1,19 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import CartItemsList from "./CartItemsList";
-import "./index.css";
+import CartContext from "../Contexts/CartContext";
+import { cartOpenFunc, productsFunc, itemsFunc } from "../../store/selectorFunc";
+import { removeFromCart } from "../../store/slices/cartSlice";
+import useImageLoader from "../../hooks/useIageLoader";
 
-const Cart = ({ items, onClose, onRemove, sum }) => {
-  const [inCartItems, setInCartItems] = useState([]);
+const Cart = ({ onClose, sum, productsItems}) => {
+  const cartItems = useSelector(itemsFunc);
+  console.log(cartItems, onClose, sum, 'cart items ')
+  console.log(productsItems)
+  const dispatch = useDispatch();
+  const [selectedData, setSelectedData] = useState([]);
+  const { imageLoaded, imageError, handleImageLoaded, handleImageError } = useImageLoader();
+
+  
 
   useEffect(() => {
     itemsAdded();
-  }, [items]);
+  }, [cartItems, productsItems]);
 
   const itemsAdded = () => {
-    const newArr = items.filter((item) => item.inCart);
-    setInCartItems(newArr);
+    if (Array.isArray(productsItems)) {
+      const selectedItems = productsItems.filter((item) =>
+        cartItems.includes(item.id)
+      );
+      setSelectedData(selectedItems);
+      console.log(selectedData, selectedItems)
+    }
   };
-
   const onDragStart = (e, index) => {
     e.dataTransfer.setData("index", index);
   };
@@ -22,28 +37,22 @@ const Cart = ({ items, onClose, onRemove, sum }) => {
     e.preventDefault();
   };
 
-  const handleImageLoaded = () => {
-    console.log("Image loaded successfully");
-    setInCartItems((prevState) => ({ ...prevState, imageLoaded: true }));
-  };
-
-  const handleImageError = () => {
-    console.log("Error loading image");
-    setInCartItems((prevState) => ({ ...prevState, imageError: true }));
-  };
-
   const onDrop = (e, index) => {
     const fromIndex = e.dataTransfer.getData("index");
-    const newItemList = [...inCartItems];
+    const newItemList = [...selectedData];
     const removedItem = newItemList.splice(fromIndex, 1)[0];
     newItemList.splice(index, 0, removedItem);
-    setInCartItems(newItemList);
+    setSelectedData(newItemList);
+  };
+
+  const onRemove = (obj) => {
+    dispatch(removeFromCart(obj.id));
   };
 
   return (
     <CartItemsList
       onClose={onClose}
-      items={inCartItems}
+      items={selectedData}
       onRemove={onRemove}
       sum={sum}
       onDragStart={onDragStart}
